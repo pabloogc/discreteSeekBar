@@ -93,7 +93,6 @@ public class ThumbDrawable extends StateDrawable implements Animatable {
 
     @Override
     public void start() {
-        //NOOP
     }
 
     @Override

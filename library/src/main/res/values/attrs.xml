@@ -38,5 +38,8 @@
         <attr name="dsb_scrubberHeight" format="integer|dimension"/>
         <attr name="dsb_thumbSize" format="integer|dimension"/>
         <attr name="dsb_indicatorSeparation" format="integer|dimension"/>
+        <attr name="dsb_dotsEnabled" format="boolean"/>
+        <attr name="dsb_dotColor" format="color|reference"/>
+        <attr name="dsb_dotSize" format="integer|dimension"/>
     </declare-styleable>
 </resources>

@@ -21,6 +21,7 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -62,11 +63,11 @@ public class DiscreteSeekBar extends View {
          * @param value    the new value
          * @param fromUser if the change was made from the user or not (i.e. the developer calling {@link #setProgress(int)}
          */
-        public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser);
+        void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser);
 
-        public void onStartTrackingTouch(DiscreteSeekBar seekBar);
+        void onStartTrackingTouch(DiscreteSeekBar seekBar);
 
-        public void onStopTrackingTouch(DiscreteSeekBar seekBar);
+        void onStopTrackingTouch(DiscreteSeekBar seekBar);
     }
 
     /**
@@ -140,6 +141,10 @@ public class DiscreteSeekBar extends View {
     private int mScrubberHeight;
     private int mAddedTouchBounds;
 
+    private boolean mDotsEnabled;
+    private int mDotColor;
+    private float mDotSize;
+
     private int mMax;
     private int mMin;
     private int mValue;
@@ -164,6 +169,8 @@ public class DiscreteSeekBar extends View {
     private int mAnimationTarget;
     private float mDownX;
     private float mTouchSlop;
+
+    private final Paint mDotsPaint = new Paint();
 
     public DiscreteSeekBar(Context context) {
         this(context, null);
@@ -227,6 +234,7 @@ public class DiscreteSeekBar extends View {
             }
         }
 
+
         mMin = min;
         mMax = Math.max(min + 1, max);
         mValue = Math.max(min, Math.min(max, value));
@@ -266,6 +274,11 @@ public class DiscreteSeekBar extends View {
         mThumb = new ThumbDrawable(progressColor, thumbSize);
         mThumb.setCallback(this);
         mThumb.setBounds(0, 0, mThumb.getIntrinsicWidth(), mThumb.getIntrinsicHeight());
+
+
+        mDotsEnabled = a.getBoolean(R.styleable.DiscreteSeekBar_dsb_dotsEnabled, false);
+        mDotColor = a.getColor(R.styleable.DiscreteSeekBar_dsb_dotColor, Color.DKGRAY);
+        mDotSize = a.getDimension(R.styleable.DiscreteSeekBar_dsb_dotSize, mTrackHeight + 10);
 
 
         if (!editMode) {
@@ -627,9 +640,19 @@ public class DiscreteSeekBar extends View {
         if (!isLollipopOrGreater) {
             mRipple.draw(canvas);
         }
-        super.onDraw(canvas);
+
         mTrack.draw(canvas);
         mScrubber.draw(canvas);
+
+        if (mDotsEnabled) {
+            mDotsPaint.setColor(mDotColor);
+            Rect bounds = mTrack.getBounds();
+            float spacing = ((float) bounds.width()) / (getMax() - getMin());
+            for (float x = bounds.left; x < bounds.right; x += spacing) {
+                canvas.drawCircle(x, getHeight() / 2f, mDotSize, mDotsPaint);
+            }
+        }
+
         mThumb.draw(canvas);
     }
 
@@ -677,7 +700,7 @@ public class DiscreteSeekBar extends View {
     private String convertValueToMessage(int value) {
         String format = mIndicatorFormatter != null ? mIndicatorFormatter : DEFAULT_FORMATTER;
         //We're trying to re-use the Formatter here to avoid too much memory allocations
-        //But I'm not completey sure if it's doing anything good... :(
+        //But I'm not completely sure if it's doing anything good... :(
         //Previously, this condition was wrong so the Formatter was always re-created
         //But as I fixed the condition, the formatter started outputting trash characters from previous
         //calls, so I mark the StringBuilder as empty before calling format again.
@@ -708,6 +731,7 @@ public class DiscreteSeekBar extends View {
             case MotionEvent.ACTION_DOWN:
                 mDownX = event.getX();
                 startDragging(event, isInScrollingContainer());
+                updateDragging(event);
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (isDragging()) {
@@ -779,7 +803,6 @@ public class DiscreteSeekBar extends View {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        //TODO: Should we reverse the keys for RTL? The framework's SeekBar does NOT....
         boolean handled = false;
         if (isEnabled()) {
             int progress = getAnimatedProgress();
