@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PopupSeekBar">
+        <attr name="min" format="integer|dimension" />
+        <attr name="max" format="integer|dimension" />
+        <attr name="progress" format="integer|dimension" />
+
+        <attr name="thumbSize" format="integer|dimension" />
+        <attr name="thumbDrawable" format="reference" />
+
+        <attr name="progressHeight" format="integer|dimension" />
+        <attr name="progressColor" format="color|reference" />
+
+        <attr name="trackHeight" format="integer|dimension" />
+        <attr name="trackColor" format="integer|dimension" />
+
+        <attr name="indicatorEnabled" format="boolean" />
+        <attr name="indicatorTextAppearance" format="reference" />
+        <attr name="indicatorColor" format="color|reference" />
+        <attr name="indicatorElevation" format="dimension" />
+
+        <attr name="dotsEnabled" format="boolean" />
+        <attr name="dotColor" format="color|reference" />
+        <attr name="dotSize" format="integer|dimension" />
+    </declare-styleable>
+</resources>
