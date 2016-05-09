@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MarkerSeekBar">
+        <attr name="markerTextAppearance" format="reference" />
+        <attr name="markerTextColor" format="color|reference" />
+        <attr name="markerColor" format="color|reference" />
+        <attr name="markerShadowRadius" format="integer|dimension" />
+        <attr name="markerShadowColor" format="color|reference" />
+        <attr name="markerPopUpWindowSize" format="integer|dimension" />
+        <attr name="markerHorizontalOffset" format="integer|dimension" />
+        <attr name="markerVerticalOffset" format="integer|dimension" />
+    </declare-styleable>
+
+
+    <style name="Widget.MarkerSeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="markerTextAppearance">@style/Widget.MarkerSeekBar.TextAppearance</item>
+        <item name="markerColor">?colorAccent</item>
+        <item name="markerShadowRadius">2dp</item>
+        <item name="markerShadowColor">#3d1d1d1d</item>
+        <item name="markerPopUpWindowSize">80dp</item>
+        <!--Material SeekBar has a 6.5dp offset when getting the thumb drawable center-->
+        <item name="markerHorizontalOffset">6.5dp</item>
+        <item name="markerVerticalOffset">0dp</item>
+    </style>
+
+    <style name="Widget.MarkerSeekBar.TextAppearance" parent="android:TextAppearance.Small">
+        <item name="android:textColor">#ff000000</item>
+    </style>
+
+</resources>

@@ -1,26 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@android:color/white"
-              android:gravity="center"
-              android:orientation="vertical"
-              tools:context="com.bq.thumbseekbar.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.bq.thumbseekbar.MainActivity">
 
-    <com.bq.lib.PopupSeekBar
-        android:id="@+id/thumbSeekBar"
+    <com.bq.markerseekbar.MarkerSeekBar
+        android:id="@+id/bar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="1000000000"
-        app:min="0"/>
+        android:layout_marginTop="50dp"
+        android:max="9999"
+        app:markerColor="#ffffff"
+        app:markerTextColor="#000000" />
 
+    <com.bq.markerseekbar.MarkerSeekBar
+        android:id="@+id/bar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:max="1000000000" />
 
-    <com.bq.lib.PopupSeekBar
+    <com.bq.markerseekbar.MarkerSeekBar
+        android:id="@+id/bar3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:max="100"
-        app:min="0"/>
+        app:markerColor="@color/colorPrimary"
+        app:markerTextAppearance="@style/MarkerText"
+        app:markerTextColor="#ffffff" />
 </LinearLayout>
